@@ -1,11 +1,20 @@
 from django.db import models
 
 
+class Image(models.Model):
+    name = models.CharField(max_length=200)
+    url = models.URLField(max_length=4096)
+
+    def __str__(self):
+        return self.name
+
+
 class Category(models.Model):
     class Meta:
         verbose_name_plural = "categories"
 
     name = models.CharField(max_length=200)
+    image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
@@ -13,14 +22,6 @@ class Category(models.Model):
 
 class Label(models.Model):
     name = models.CharField(max_length=200, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Image(models.Model):
-    name = models.CharField(max_length=200)
-    url = models.URLField(max_length=4096)
 
     def __str__(self):
         return self.name
