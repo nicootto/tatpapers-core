@@ -4,6 +4,7 @@ from webservices import views
 
 router = routers.DefaultRouter()
 router.register('categories', views.CategoryView)
+router.register('products', views.ProductView)
 
 urlpatterns = [
     path('', include(router.urls)),

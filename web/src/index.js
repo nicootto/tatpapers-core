@@ -1,15 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { ThemeProvider } from "styled-components";
 
-import App from "./components/App";
-import * as serviceWorker from "./serviceWorker";
+import { GlobalStyle } from "./globalStyles/global";
+import { defaultTheme } from "./globalStyles/themes";
+import { history } from "./history";
+import { App } from "./app";
+import { Router } from "react-router-dom";
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+const Root = () => {
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <GlobalStyle />
+      <Router history={history}>
+        <App />
+      </Router>
+    </ThemeProvider>
+  );
+};
 
-ReactDOM.render(<App />, document.getElementById("root"));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(<Root />, document.getElementById("root"));
