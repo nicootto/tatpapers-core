@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-const baseUrl = "http://192.168.1.4:8000/api";
+import { apiUrl } from "../constants";
 
 export const useCategories = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${baseUrl}/categories/`)
+    fetch(`${apiUrl}/categories/`)
       .then(r => r.json())
       .then(r => {
         setData(r);
@@ -23,7 +23,7 @@ export const useCategory = id => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${baseUrl}/categories/${id}/`)
+    fetch(`${apiUrl}/categories/${id}/`)
       .then(r => r.json())
       .then(r => {
         setData(r);
@@ -39,7 +39,7 @@ export const useProduct = id => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${baseUrl}/products/${id}`)
+    fetch(`${apiUrl}/products/${id}`)
       .then(r => r.json())
       .then(r => {
         setData(r);

@@ -1,0 +1,35 @@
+version: "3"
+services:
+  api:
+    build: api/
+    command: uwsgi --socket :8000 --module tatpapers_core.wsgi --master --processes 4 --threads 2 --stats 127.0.0.1:9191
+    container_name: api
+    ports:
+      - "8000:8000"
+    volumes: 
+      - api_static:/code/static
+
+  web:
+    build: 
+      context: ./web
+      dockerfile: ./Dockerfile
+      args:
+        API_URI: 'http://www.tatpapers.com/api'
+    container_name: web
+    ports: 
+      - "80:80"
+    volumes:
+      - api_static:/api_static
+  
+  db:
+    image: postgres:12
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: qazwsx
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes: 
+  db_data:
+  api_static:
