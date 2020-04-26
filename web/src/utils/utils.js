@@ -1,5 +1,3 @@
-import { baseUrl } from "../app/routes/paths";
-
 export const slugify = text =>
   text
     .toString()
@@ -25,7 +23,8 @@ export const generateCategoryUrl = (id, name) =>
 export const generateProductUrl = id => `/producto/${id}/`;
 
 export const generateProductWhatsappUrl = id => {
-  const productUrl = `http://192.168.1.4${generateProductUrl(id)}`;
+  const baseUrl = window.location.origin;
+  const productUrl = `${baseUrl}${generateProductUrl(id)}`;
   const text = encodeURI(`Hola Tati! Quiero este producto ${productUrl}`);
   return `https://api.whatsapp.com/send?phone=59895345919&text=${text}&source=&data=&app_absent=`;
 };
