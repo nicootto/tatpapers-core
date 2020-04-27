@@ -1,7 +1,7 @@
 version: "3"
 services:
   api:
-    build: api/
+    image: nicootto/tatpapers-core
     command: uwsgi --socket :8000 --module tatpapers_core.wsgi --master --processes 4 --threads 2 --stats 127.0.0.1:9191
     container_name: api
     ports:
@@ -10,11 +10,7 @@ services:
       - api_static:/code/static
 
   web:
-    build: 
-      context: ./web
-      dockerfile: ./Dockerfile
-      args:
-        API_URI: 'http://www.tatpapers.com/api'
+    image: nicootto/tatpapers-web
     container_name: web
     ports: 
       - "80:80"

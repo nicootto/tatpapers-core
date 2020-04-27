@@ -3,8 +3,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-ARG API_URI
-ENV REACT_APP_API_URI $API_URI
 RUN npm run build
 
 FROM nginx:stable
