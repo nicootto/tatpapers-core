@@ -1,26 +1,36 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from products.models import Category, Product
+from products.models import Category, Product, Label
 from .serializers import (
     CategorySerializer,
     CategoryProductsSerializer,
-    ProductSerializer
-)
+    ProductSerializer,
+    LabelSerializer)
 
 
-class CategoryView(viewsets.ViewSet):
-    queryset = Category.objects.all()
+class CategoryView(viewsets.GenericViewSet):
+    def get_queryset(self):
+        return Category.objects.all()
 
     def list(self, request):
-        categories = self.queryset
+        categories = self.get_queryset()
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk):
-        category = self.queryset.get(pk=pk)
-        serialier = CategoryProductsSerializer(category)
+        labels = request.query_params.getlist("label")
+
+        category = self.get_queryset().get(pk=pk)
+
+        context = {"labels": labels}
+        serialier = CategoryProductsSerializer(category, context=context)
         return Response(serialier.data)
+
+
+class LabelView(viewsets.ReadOnlyModelViewSet):
+    queryset = Label.objects.all()
+    serializer_class = LabelSerializer
 
 
 class ProductView(viewsets.ViewSet):
